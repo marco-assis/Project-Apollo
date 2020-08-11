@@ -8,6 +8,7 @@ import os
 graph = facebook.GraphAPI(access_token=os.environ["token"])
 
 quo = [""]
+print("ready")
 
 for p in range(100):
 
@@ -21,6 +22,44 @@ for p in range(100):
         tw = q.contents[0] + auth.text 
         quo.append(tw)
 
+for p in range(100):
+
+    URL = 'https://www.goodreads.com/quotes/tag/poetry?page={}'.format(p)
+    page = requests.get(URL)
+    soup = BeautifulSoup(page.content, 'html.parser')
+    quote = soup.find_all('div', class_="quoteText")
+
+    for q in quote:
+        auth = q.find('span', class_="authorOrTitle")
+        tw = q.contents[0] + auth.text 
+        quo.append(tw)
+
+for p in range(100):
+
+    URL = 'https://www.goodreads.com/quotes/tag/humor?page={}'.format(p)
+    page = requests.get(URL)
+    soup = BeautifulSoup(page.content, 'html.parser')
+    quote = soup.find_all('div', class_="quoteText")
+
+    for q in quote:
+        auth = q.find('span', class_="authorOrTitle")
+        tw = q.contents[0] + auth.text 
+        quo.append(tw)
+
+for p in range(100):
+
+    URL = 'https://www.goodreads.com/quotes/tag/philosophy?page={}'.format(p)
+    page = requests.get(URL)
+    soup = BeautifulSoup(page.content, 'html.parser')
+    quote = soup.find_all('div', class_="quoteText")
+
+    for q in quote:
+        auth = q.find('span', class_="authorOrTitle")
+        tw = q.contents[0] + auth.text 
+        quo.append(tw)
+
+
+
 T = 10
 while True:
     for t in range(T):
@@ -28,9 +67,9 @@ while True:
             quotes = random.choice(quo)
             try:
                 graph.put_object("me", "feed", message=quotes.strip())
-            except GraphAPIError:
+            except :
                 pass
             print("DONE")
-            time.sleep(7200)
+            time.sleep(3600)
     
 
